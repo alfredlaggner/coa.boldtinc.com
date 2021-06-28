@@ -139,13 +139,13 @@ class CoaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $coa = Coa::find($id);
-     //   dd($coa);
         Storage::disk('s3')->delete($coa->coa_name);
         $coa->delete();
 
