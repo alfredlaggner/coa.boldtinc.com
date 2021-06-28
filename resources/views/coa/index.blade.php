@@ -1,5 +1,4 @@
-xxx
-@extends('layouts.app')
+@extends('layouts.app_org')
 @section('title', 'Driver coas')
 @section('content')
     <div class="container">
@@ -26,7 +25,7 @@ xxx
                         </div>
                         <div class="col-sm">
 
-                            <form action="{{action('CoaController@create')}}" method="get">
+                            <form action="{{url('coas/create')}}" method="get">
                                 @csrf
                                 <input name="_method" type="hidden" value="CREATE">
                                 <button class="btn btn-primary" type="submit">New COA</button>
@@ -62,7 +61,7 @@ xxx
                                 </td>
 --}}
                                 <td>
-                                    <form action="{{action('CoaController@destroy', $coa['id'])}}" method="post">
+                                    <form action="{{route('file.delete', $coa['id'])}}" method="post">
                                         @csrf
                                         <input name="_method" type="hidden" value="DELETE">
                                         <button class="btn  btn-outline-info" type="submit">Delete</button>

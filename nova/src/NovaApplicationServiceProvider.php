@@ -64,11 +64,22 @@ class NovaApplicationServiceProvider extends ServiceProvider
     {
         Gate::define('viewNova', function ($user) {
             return in_array($user->email, [
-                //
+                'alfred.laggner@gmail.com',
             ]);
         });
     }
+/*    protected function gate()
+    {
+        Gate::define('viewNova', function ($user) {
+            if ($user->hasPermission('Nova')) {
+                return true;
+            }
 
+            // If user doesn't have access to nova, log them out.
+            // This prevents them for being stuck in 403 page.
+            Auth::logout();
+        });
+    }*/
     /**
      * Get the cards that should be displayed on the Nova dashboard.
      *

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_org')
 
 @section('content')
     <div class="container">
@@ -32,22 +32,21 @@
                         @endif
 
 
-                        <form method="post" action="{{action('CoaController@store')}}" enctype="multipart/form-data">
+                        <form method="post" action="{{route('file.store')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="product_name">Product Name</label>
                                 <input type="text" class="form-control" name="product_name" id="product_name" value="">
                             </div>
                             <div class="form-group">
-                                <label for="coaNumber">Number</label>
+                                <label for="coaNumber">Batch Number</label>
                                 <input type="text" class="form-control" name="coa_number" id="coa_number" value="">
                             </div>
                             <div class="form-group">
-                                <label for="coa-file">Get COA file</label>
-                                <input type="file" class="form-control-file" name="fileToUpload" aria-describedby="fileHelp" id="coa_name">
+                                <input type="file" class="form-control-file" name="fileToUpload" aria-describedby="fileHelp" id="coa_name" enctype="multipart/form-data">
                             </div>
                             <button class="btn btn-primary" type="submit">Beam me up</button>
-                            <a href="{{ route('go-home') }}" class="btn btn-outline-primary btn-sm" role="button"
+                            <a href="{{ route('home') }}" class="btn btn-outline-primary btn-sm" role="button"
                                aria-pressed="true">Home</a>
 
                         </form>

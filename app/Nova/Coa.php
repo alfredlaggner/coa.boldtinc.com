@@ -18,7 +18,7 @@ class Coa extends Resource
      *
      * @var string
      */
-    public static $model = 'App\Coa';
+    public static $model = 'App\Models\Coa';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -51,14 +51,14 @@ class Coa extends Resource
 	//		Text::make('File Name', 'coa_name')->sortable()->rules('required', 'max:50'),
 			Text::make('Original Name', 'original_name')->sortable(),
 			Date::make('Created at')->sortable(),
-       //     File::make('Coa File', 'coa_name')->disk('s3')->storeOriginalName('coa_name'),
-			File::make('Coa File', 'coa_name')
-				->store(function (Request $request, $coa) {
-					return [
-						'coa_name' => $request->coa_name->store('/', 's3'),
-						'original_name' => $request->coa_name->getClientOriginalName(),
-					];
-				})
+     //       File::make('Coa File', 'coa_name')->disk('s3')->storeOriginalName(),
+            File::make('Coa File', 'coa_name')
+                ->store(function (Request $request, $coa) {
+                    return [
+                        'coa_name' => $request->coa_name->store('/', 's3'),
+                        'original_name' => $request->coa_name->getClientOriginalName(),
+                    ];
+                })
         ];
     }
 

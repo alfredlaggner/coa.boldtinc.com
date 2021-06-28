@@ -1,10 +1,19 @@
-@extends('layouts.app')
+@extends('layouts.app_org')
 @section('title', 'Download')
 @section('content')
     <div class="container">
         <div class="card text-center">
             <div class="card-header">
-                <b>Certificates of Analysis Document Download</b>
+                <b>Boldt COA Management</b>
+                <div class="col" style="margin-top: 20px;">
+
+                    <form action="{{url('coas/create')}}" method="get">
+                        @csrf
+                        <input name="_method" type="hidden" value="CREATE">
+                        <button class="btn btn-sm btn-primary" type="submit">Add COA</button>
+                    </form>
+                </div>
+
             </div>
 
             <div class="col-md-12">
@@ -25,12 +34,13 @@
                                placeholder="Search for batches..">
                     </div>
                 </div>
-                <table class="table table-striped table-bordered" id="coa_table" style="width: 100%">
+                <table class="table table-bordered" id="coa_table" style="width: 100%">
                     <thead>
                     <tr>
                         <th>ID</th>
                         <th>Strain</th>
                         <th>Batch Number</th>
+                        <th>Document Name</th>
                         <th colspan="2">Action</th>
                     </tr>
                     </thead>
@@ -38,19 +48,56 @@
                     <tbody>
 
                     @foreach($coas as $coa)
-
                         <tr>
                             <td>{{$coa->id}}</td>
                             <td>{{$coa->product_name}}</td>
                             <td>{{$coa->coa_number}}</td>
+                            <td>{{$coa->coa_name}}</td>
 
-                            <td>
+                            <td aria-colspan="2">
                                 <form action="{{route('download', $coa['id'])}}" method="get">
                                     @csrf
-                                    <button class="btn btn-success" type="submit">Download!</button>
+                                    <button class="btn btn-sm btn-success" type="submit">Download</button>
                                 </form>
                             </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                                        data-target="#exampleModalLong">
+                                    Delete
+                                </button>
+                            </td>
+
                         </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLongTitle"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Delete
+                                            Record {{$coa['id']}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <form action="{{route('file.delete', $coa['id'])}}" method="post">
+                                            @csrf
+                                            <input name="_method" type="hidden" value="DELETE">
+                                            <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     @endforeach
                     </tbody>
 
@@ -62,6 +109,7 @@
 
         </div>
     </div>
+
     <script>
         function myFunction() {
             // Declare variables

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Coa;
+use App\Models\Coa;
 use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
@@ -36,7 +36,6 @@ class HomeController extends Controller
     public function download_regular($id)
     {
         $coa = Coa::find($id);
-        //	dd(Storage::disk('s3'));
         return Storage::disk('s3')->download( $coa->coa_name);
     }
 

@@ -1,34 +1,42 @@
 <?php
 
-	/*
-	|--------------------------------------------------------------------------
-	| Web Routes
-	|--------------------------------------------------------------------------
-	|
-	| Here is where you can register web routes for your application. These
-	| routes are loaded by the RouteServiceProvider within a group which
-	| contains the "web" middleware group. Now create something great!
-	|
-	*/
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CoaController;
+use App\Http\Controllers\DataTableController;
+use App\Http\Controllers\HomeController;
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
-	Auth::routes();
+Route::get('/', function () {
+    return view('welcome');
+});
 
-	Route::get('/', 'HomeController@index')->name('home');
-	Route::get('/coas', 'CoaController@index')->name('coas');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-	Route::resource('coas', 'CoaController');
-	Route::get('go-home', array('as' => 'go-home', 'uses' => 'CoaController@index'));
-	Route::get('go-home', array('as' => 'go-home', 'uses' => 'CoaController@index'));
-//Route::get('coas/{coa}/download', array('as' => 'download', 'uses' => 'HomeController@download'));
+require __DIR__.'/auth.php';
+
+Route::get('/', [HomeController::class ,'index'])->name('home');
+Route::get('download/{id}', [HomeController::class,'download_regular'])->name('download');
 
 
-//Route::get('/', 'HomeController@show')->name('home1');
+Route::get('/coas', [CoaController::class,'index'])->name('coas');
 
-	Route::get('/get-simple-datatables-data', 'DataTableController@getSimpleDatatablesData')->name('simple_datatables_users_data');
+Route::get('go-home', [CoaController::class,'index'])->name('go-home');
+Route::get('/get-simple-datatables-data', [DataTableController::class,'getSimpleDatatablesData'])->name('simple_datatables_users_data');
+Route::get('/get-custom-column-datatables-data', [DataTableController::class, 'getCustomColumnDatatablesData'])->name('custom_column_datatables_users_data');
+Route::get('/get-relationship-column-datatables-data', [DataTableController::class,'getRelationshipColumnDatatablesData'])->name('relationship_column_datatables_users_data');
+Route::get('/get-extra-data-datatables-attributes-data', [DataTableController::class, 'getExtraDataDatatablesAttributesData'])->name('get_extra_data_datatables_attributes_data');
 
-	Route::get('/get-custom-column-datatables-data', 'DataTableController@getCustomColumnDatatablesData')->name('custom_column_datatables_users_data');
-
-	Route::get('/get-relationship-column-datatables-data', 'DataTableController@getRelationshipColumnDatatablesData')->name('relationship_column_datatables_users_data');
-
-	Route::get('/get-extra-data-datatables-attributes-data', 'DataTableController@getExtraDataDatatablesAttributesData')->name('get_extra_data_datatables_attributes_data');
-	Route::get('download/{id}', 'HomeController@download_regular')->name('download');
+Route::resource('coas', CoaController::class);
+Route::post('store', [CoaController::class,'store'])->name('file.store');
+Route::delete('delete/{id}', [CoaController::class,'destroy'])->name('file.delete');
