@@ -4,7 +4,7 @@
     <div class="container">
         <div class="card text-center">
             <div class="card-header">
-                <b>Boldt COA Management</b>
+                <H5>Boldt COA Management</H5>
                 <div class="col" style="margin-top: 20px;">
 
                     <form action="{{url('coas/create')}}" method="get">
@@ -48,6 +48,9 @@
                     <tbody>
 
                     @foreach($coas as $coa)
+                        @php
+                            $id = $coa['id'];
+                            @endphp
                         <tr>
                             <td>{{$coa->id}}</td>
                             <td>{{$coa->product_name}}</td>
@@ -61,10 +64,18 @@
                                 </form>
                             </td>
                             <td>
+                                <form action="{{route('file.delete', $id)}}" method="post">
+                                    @csrf
+                                    <input name="_method" type="hidden" value="DELETE">
+                                    <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                                </form>
+
+{{--
                                 <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
                                         data-target="#exampleModalLong">
                                     Delete
                                 </button>
+--}}
                             </td>
 
                         </tr>
@@ -76,7 +87,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLongTitle">Delete
-                                            Record {{$coa['id']}}</h5>
+                                            Record {{$id}}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -88,8 +99,9 @@
                                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
                                             Close
                                         </button>
-                                        <form action="{{route('file.delete', $coa['id'])}}" method="post">
+                                        <form action="{{route('file.delete', $id)}}" method="post">
                                             @csrf
+                                            <input name="id"  content="{{$id}}">
                                             <input name="_method" type="hidden" value="DELETE">
                                             <button class="btn btn-sm btn-danger" type="submit">Delete</button>
                                         </form>

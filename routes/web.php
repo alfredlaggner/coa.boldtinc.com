@@ -15,9 +15,6 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -25,8 +22,8 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/', [HomeController::class ,'index'])->name('home');
-Route::get('download/{id}', [HomeController::class,'download_regular'])->name('download');
+Route::get('/', [CoaController::class ,'list'])->name('home');
+Route::get('download/{id}', [CoaController::class,'download_regular'])->name('download');
 
 
 Route::get('/coas', [CoaController::class,'index'])->name('coas');
@@ -39,4 +36,8 @@ Route::get('/get-extra-data-datatables-attributes-data', [DataTableController::c
 
 Route::resource('coas', CoaController::class);
 Route::post('store', [CoaController::class,'store'])->name('file.store');
-Route::delete('delete/{id}', [CoaController::class,'destroy'])->name('file.delete');
+Route::any('delete/{id}', [CoaController::class,'destroy'])->name('file.delete');
+
+//Auth::routes();
+
+Route::get('/home', [CoaController::class, 'list'])->name('home');

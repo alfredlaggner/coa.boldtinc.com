@@ -1,8 +1,9 @@
 <?php
 
+use Laravel\Nova\Actions\ActionResource;
+use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Http\Middleware\Authorize;
 use Laravel\Nova\Http\Middleware\BootTools;
-use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Http\Middleware\DispatchServingNovaEvent;
 
 return [
@@ -18,7 +19,20 @@ return [
     |
     */
 
-    'name' => 'Coa Administrator',
+    'name' => env('NOVA_APP_NAME', env('APP_NAME')),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Nova Domain Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the "domain name" associated with your application. This
+    | can be used to prevent Nova's internal routes from being registered
+    | on subdomains which do not need access to your admin application.
+    |
+    */
+
+    'domain' => env('NOVA_DOMAIN_NAME', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -44,7 +58,7 @@ return [
     |
     */
 
-    'path' => '/admin',
+    'path' => '/nova',
 
     /*
     |--------------------------------------------------------------------------
@@ -58,6 +72,19 @@ return [
     */
 
     'guard' => env('NOVA_GUARD', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Nova Password Reset Broker
+    |--------------------------------------------------------------------------
+    |
+    | This configuration option defines the password broker that will be
+    | used when passwords are reset. This option should mirror one of
+    | the password reset options defined in the "auth" config file.
+    |
+    */
+
+    'passwords' => env('NOVA_PASSWORDS', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -77,5 +104,46 @@ return [
         BootTools::class,
         Authorize::class,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Nova Pagination Type
+    |--------------------------------------------------------------------------
+    |
+    | This option defines the visual style used in Nova's resource pagination
+    | views. You may select between "simple", "load-more", and "links" for
+    | your applications. Feel free to adjust this option to your choice.
+    |
+    */
+
+    'pagination' => 'simple',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Nova Action Resource Class
+    |--------------------------------------------------------------------------
+    |
+    | This configuration option allows you to specify a custom resource class
+    | to use instead of the type that ships with Nova. You may use this to
+    | define any extra form fields or other custom behavior as required.
+    |
+    */
+
+    'actions' => [
+        'resource' => ActionResource::class,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Nova Currency
+    |--------------------------------------------------------------------------
+    |
+    | This configuration option allows you to define the default currency
+    | used by the Currency field within Nova. You may change this to a
+    | valid ISO 4217 currency code to suit your application's needs.
+    |
+    */
+
+    'currency' => 'USD',
 
 ];

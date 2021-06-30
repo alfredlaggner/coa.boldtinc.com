@@ -17,6 +17,16 @@ class CoaController extends Controller
     {
         return view('coa.index')->with('coas', Coa::all());
     }
+    public function list()
+    {
+        return view('coa.list_org')->with('coas', Coa:: get());;
+
+    }
+    public function download_regular($id)
+    {
+        $coa = Coa::find($id);
+        return Storage::disk('s3')->download( $coa->coa_name);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -52,7 +62,6 @@ class CoaController extends Controller
         ]);
         $originalName = $request->files->get('fileToUpload')->getClientOriginalName();
         $request->fileToUpload->storeAs('/', $request->fileToUpload->getClientOriginalName(), 's3');
-//dd("XXX");
 
         $coa = new Coa;
         $coa->product_name = $request->get('product_name');
@@ -143,10 +152,10 @@ class CoaController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         $coa = Coa::find($id);
-        Storage::disk('s3')->delete($coa->coa_name);
+    //    Storage::disk('s3')->delete($coa->coa_name);
         $coa->delete();
 
         return redirect('/')->with('success', 'Record ' . $id . ' has been deleted');

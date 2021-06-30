@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
 	public function index()
 	{
-		return view('coa.list_org')->with('coas', Coa:: all());;
+		return view('coa.list_org')->with('coas', Coa:: get());;
 
 	}
 
