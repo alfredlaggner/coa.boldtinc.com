@@ -40,4 +40,4 @@ Route::any('delete/{id}', [CoaController::class,'destroy'])->name('file.delete')
 
 //Auth::routes();
 
-Route::get('/home', [CoaController::class, 'list'])->name('home');
+//Route::get('/home', [CoaController::class, 'list'])->name('home');
